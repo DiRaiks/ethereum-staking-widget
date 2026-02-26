@@ -1,7 +1,7 @@
 import { standardFetcher } from 'utils/standardFetcher';
 import { APY_SCHEMA } from 'utils/zod';
 import { MellowAPIResponse } from './hooks/use-dvv-stats';
-import { DVV_APR_ENDPOINT } from './consts';
+import { DVV_APR_ENDPOINT } from './consts.server';
 
 export const fetchDVVStats = async () => {
   const data = await standardFetcher<MellowAPIResponse>(DVV_APR_ENDPOINT);

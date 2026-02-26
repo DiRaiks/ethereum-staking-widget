@@ -13,7 +13,7 @@ import { Cache } from 'memory-cache';
 
 import { fetchExternalManifest } from 'utilsApi/fetch-external-manifest';
 import { loadValidationFile } from 'utilsApi/load-validation-file';
-import { config } from 'config';
+import { config } from 'config/get-config';
 
 const CACHE_KEY = 'page-data';
 // TTL берём из конфига (то же значение что было в revalidate getStaticProps)

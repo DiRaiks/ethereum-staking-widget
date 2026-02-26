@@ -5,7 +5,7 @@ import buildInfoJson from 'build-info.json';
 import { openKeys } from 'scripts/log-environment-variables.mjs';
 import { getRPCChecks } from 'scripts/startup-checks/rpc.mjs';
 
-import { config } from 'config';
+import { config } from 'config/get-config';
 import { METRICS_PREFIX } from 'consts/metrics';
 
 import { StartupChecksRPCMetrics } from './startup-checks';

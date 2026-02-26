@@ -1,4 +1,4 @@
-import { config } from 'config';
+import { config } from 'config/get-config';
 
 export const LINK_ADD_NFT_GUIDE = `${config.helpOrigin}/en/articles/7858367-how-do-i-add-the-lido-nft-to-metamask`;
 

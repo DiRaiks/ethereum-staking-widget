@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import Metrics from 'utilsApi/metrics';
-import { config } from 'config';
+import { config } from 'config/get-config';
 
 export interface AddressValidationFile {
   addresses: string[];

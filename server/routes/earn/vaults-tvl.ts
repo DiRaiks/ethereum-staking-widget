@@ -13,7 +13,7 @@ import { mainnet } from 'viem/chains';
 import { LidoSDKWrap } from '@lidofinance/lido-ethereum-sdk/wrap';
 
 import { serverConfig } from '../../config';
-import { config } from 'config';
+import { config } from 'config/get-config';
 import { CHAINS } from 'consts/chains';
 import { getExternalConfig } from 'utilsApi/get-external-config';
 import { fetchWithCache } from 'utilsApi';
@@ -28,7 +28,7 @@ import {
   getSTGCollectorContract,
   getSTGVaultContract,
 } from 'features/earn/vault-stg/contracts';
-import { STG_COLLECTOR_CONFIG } from 'features/earn/vault-stg/consts';
+import { STG_COLLECTOR_CONFIG } from 'features/earn/vault-stg/consts.server';
 import type { STGCollectResponse } from 'features/earn/vault-stg/hooks/use-stg-collect';
 import { getDVVVaultContract } from 'features/earn/vault-dvv/contracts';
 import LocalManifestRaw from 'IPFS.json';

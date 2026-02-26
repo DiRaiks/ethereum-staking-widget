@@ -6,7 +6,7 @@
 import type { FastifyInstance } from 'fastify';
 import { serverConfig } from '../config';
 import { createFastifyCachedProxy } from '../utils/cached-proxy';
-import { config } from 'config';
+import { config } from 'config/get-config';
 
 export const rewardsRoute = async (app: FastifyInstance) => {
   if (!serverConfig.rewardsBackendAPI) {

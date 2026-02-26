@@ -3,7 +3,7 @@ import { CHAINS } from 'consts/chains';
 import { getContractAddress } from 'config/networks/contract-address';
 import { standardFetcher } from 'utils/standardFetcher';
 import { UNIX_TIMESTAMP_SCHEMA, PERCENT_SCHEMA, APY_SCHEMA } from 'utils/zod';
-import { STG_STATS_ORIGIN } from './consts';
+import { STG_STATS_ORIGIN } from './consts.server';
 
 export const ALLOCATION_SCHEMA = z.array(
   z.object({

@@ -1,4 +1,4 @@
-import { maxUint112, maxUint24, parseEther } from 'viem';
+import { maxUint112, maxUint24 } from 'viem';
 
 import { PartnerVedaIcon } from 'assets/earn';
 
@@ -28,12 +28,4 @@ export const GGV_PARTNERS = [
   },
 ];
 
-export const GGV_START_DATE = new Date('2025-09-03');
-
-export const GGV_INCENTIVES = [
-  parseEther('57.5'),
-  parseEther('32'),
-  parseEther('38.5'),
-];
-
-export const GGV_STATS_ORIGIN = 'https://api.sevenseas.capital';
+export { GGV_START_DATE, GGV_INCENTIVES, GGV_STATS_ORIGIN } from './consts.server';

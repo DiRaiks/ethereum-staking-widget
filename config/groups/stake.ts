@@ -1,4 +1,4 @@
-import { StakeSwapDiscountIntegrationKey } from 'features/stake/swap-discount-banner';
+import type { StakeSwapDiscountIntegrationKey } from 'features/stake/swap-discount-banner';
 
 import { IPFS_REFERRAL_ADDRESS } from './ipfs';
 

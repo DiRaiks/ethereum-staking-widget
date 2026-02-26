@@ -10,7 +10,7 @@ import type { FastifyInstance } from 'fastify';
 import { Cache, type CacheClass } from 'memory-cache';
 import type { Address } from 'viem';
 
-import { config } from 'config';
+import { config } from 'config/get-config';
 import { CHAINS } from 'consts/chains';
 import { getExternalConfig } from 'utilsApi/get-external-config';
 import { fetchWithCache, responseTimeExternalMetricWrapper } from 'utilsApi';
@@ -24,9 +24,9 @@ import {
 } from 'config/external-config/types';
 import { getContractAddress } from 'config/networks/contract-address';
 import LocalManifestRaw from 'IPFS.json';
-import { DVV_STATS_ORIGIN } from 'features/earn/vault-dvv/consts';
-import { STG_STATS_ORIGIN } from 'features/earn/vault-stg/consts';
-import { GGV_STATS_ORIGIN } from 'features/earn/vault-ggv/consts';
+import { DVV_STATS_ORIGIN } from 'features/earn/vault-dvv/consts.server';
+import { STG_STATS_ORIGIN } from 'features/earn/vault-stg/consts.server';
+import { GGV_STATS_ORIGIN } from 'features/earn/vault-ggv/consts.server';
 
 const DEFAULT_CACHE_TTL = 60 * 60 * 1000; // 1 hour
 const FAILURE_CACHE_TTL = 10 * 1000;

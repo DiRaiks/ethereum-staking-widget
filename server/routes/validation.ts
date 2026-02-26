@@ -8,7 +8,7 @@ import { isAddress } from 'viem';
 import { serverConfig } from '../config';
 import { createFastifyCachedProxy } from '../utils/cached-proxy';
 import { getExternalConfig } from 'utilsApi/get-external-config';
-import { config } from 'config';
+import { config } from 'config/get-config';
 
 // Валидация адреса — защита от SSRF-атак
 const validateEthereumAddress = (address: unknown): string | null => {

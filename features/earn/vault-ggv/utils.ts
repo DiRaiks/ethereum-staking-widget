@@ -1,6 +1,6 @@
 import { type Address } from 'viem';
 import { bnAmountToNumber } from 'utils/bn';
-import { GGV_INCENTIVES, GGV_START_DATE, GGV_STATS_ORIGIN } from './consts';
+import { GGV_INCENTIVES, GGV_START_DATE, GGV_STATS_ORIGIN } from './consts.server';
 import { standardFetcher } from 'utils/standardFetcher';
 import { VaultAPYType } from 'config/external-config/types';
 

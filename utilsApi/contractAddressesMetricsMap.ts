@@ -54,7 +54,7 @@ import {
   STG_VAULT_ABI,
 } from 'features/earn/vault-stg/contracts/abi';
 
-import { config } from 'config';
+import { config } from 'config/get-config';
 import { CONTRACT_NAMES } from 'config/networks/networks-map';
 import { getContractAddress } from 'config/networks/contract-address';
 

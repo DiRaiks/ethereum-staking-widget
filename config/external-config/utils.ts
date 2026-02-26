@@ -1,11 +1,11 @@
-import { config } from 'config';
-import {
+import { config } from 'config/get-config';
+import type {
   Manifest,
   ManifestConfig,
   ManifestConfigPage,
-  ManifestConfigPageEnum,
   ManifestEntry,
-} from 'config/external-config';
+} from './types';
+import { ManifestConfigPageEnum } from './types';
 
 export const getManifestKey = (
   defaultChain: number,

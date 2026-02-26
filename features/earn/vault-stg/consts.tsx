@@ -18,10 +18,4 @@ export const STG_PARTNERS = [
 
 export const MELLOW_POINT_SYMBOL = 'Mellow';
 
-export const STG_COLLECTOR_CONFIG = {
-  baseAssetFallback: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-  oracleUpdateInterval: 86400n,
-  redeemHandlingInterval: 3600n,
-} as const;
-
-export const STG_STATS_ORIGIN = 'https://api.mellow.finance';
+export { STG_COLLECTOR_CONFIG, STG_STATS_ORIGIN } from './consts.server';

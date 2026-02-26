@@ -3,8 +3,9 @@ import { IPFS_MANIFEST_URL } from 'consts/external-links';
 import { responseTimeExternalMetricWrapper } from './fetchApiWrapper';
 import { standardFetcher } from 'utils/standardFetcher';
 
-import { config } from 'config';
-import { isManifestValid, type Manifest } from 'config/external-config';
+import { config } from 'config/get-config';
+import { isManifestValid } from 'config/external-config/utils';
+import type { Manifest } from 'config/external-config/types';
 
 import FallbackLocalManifest from 'IPFS.json';
 

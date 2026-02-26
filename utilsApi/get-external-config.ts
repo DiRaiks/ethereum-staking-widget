@@ -1,5 +1,5 @@
-import { config } from 'config';
-import { getManifestKey } from 'config/external-config';
+import { config } from 'config/get-config';
+import { getManifestKey } from 'config/external-config/utils';
 
 import { fetchExternalManifest } from './fetch-external-manifest';
 
