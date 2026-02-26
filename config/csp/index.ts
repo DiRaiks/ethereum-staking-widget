@@ -1,6 +1,3 @@
-import { FC } from 'react';
-import { AppProps } from 'next/app';
-import { withSecureHeaders } from 'next-secure-headers';
 import type { ContentSecurityPolicyOption } from 'next-secure-headers/lib/rules';
 
 // Don't use absolute import here!
@@ -14,6 +11,8 @@ import { secretConfig } from '../get-secret-config';
 const trustedHosts = secretConfig.cspTrustedHosts
   ? secretConfig.cspTrustedHosts.split(',')
   : [];
+
+const developmentMode = process.env.NODE_ENV === 'development';
 
 export const contentSecurityPolicy: ContentSecurityPolicyOption = {
   directives: {
@@ -30,7 +29,7 @@ export const contentSecurityPolicy: ContentSecurityPolicyOption = {
     scriptSrc: [
       "'self'",
       "'unsafe-inline'",
-      ...(config.developmentMode ? ["'unsafe-eval'"] : []), // for HMR
+      ...(developmentMode ? ["'unsafe-eval'"] : []), // for HMR
       ...trustedHosts,
     ],
 
@@ -39,7 +38,7 @@ export const contentSecurityPolicy: ContentSecurityPolicyOption = {
       "'self'",
       'https:',
       'wss:',
-      ...(config.developmentMode ? ['ws:'] : []), // for HMR
+      ...(developmentMode ? ['ws:'] : []), // for HMR
     ],
 
     ...(!config.ipfsMode && {
@@ -59,9 +58,4 @@ export const contentSecurityPolicy: ContentSecurityPolicyOption = {
   reportOnly: secretConfig.cspReportOnly,
 };
 
-export const withCsp = (app: FC<AppProps>): FC =>
-  withSecureHeaders({
-    contentSecurityPolicy,
-    frameGuard: false,
-    referrerPolicy: 'same-origin',
-  })(app);
+// withCsp was a Next.js HOC – CSP is now handled by Fastify (server/middleware/csp.ts)

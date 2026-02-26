@@ -1,12 +1,14 @@
 import { useMemo } from 'react';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'react-router-dom';
 
 export const useSafeQueryString = (extraParams?: Record<string, string>) => {
-  const { ref, embed, app } = useRouter().query;
+  const [searchParams] = useSearchParams();
+  const ref = searchParams.get('ref') ?? undefined;
+  const embed = searchParams.get('embed') ?? undefined;
+  const app = searchParams.get('app') ?? undefined;
 
   return useMemo(() => {
     const queryParams = new URLSearchParams();
-    // mix required and extra params
     Object.entries({ ref, embed, app, ...(extraParams ?? {}) }).forEach(
       ([k, v]) => v && typeof v === 'string' && queryParams.append(k, v),
     );

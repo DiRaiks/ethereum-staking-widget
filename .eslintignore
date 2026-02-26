@@ -12,3 +12,8 @@
 # production
 /build
 /public
+
+# build outputs
+/dist
+/dist-server
+/dist-ipfs

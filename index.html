@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary meta -->
+    <title>Stake with Lido | Lido</title>
+    <meta name="description" content="Stake Ether with Lido and receive stETH while staking rewards accrue daily." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Stake with Lido | Lido" />
+    <meta property="og:description" content="Stake Ether with Lido and receive stETH while staking rewards accrue daily." />
+    <meta property="og:image" content="/preview.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Stake with Lido | Lido" />
+    <meta name="twitter:description" content="Stake Ether with Lido and receive stETH while staking rewards accrue daily." />
+    <meta name="twitter:image:src" content="/preview.png" />
+    <meta name="twitter:site" content="@lidofinance" />
+    <meta name="twitter:creator" content="@lomashuk" />
+
+    <!-- Icons -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-1080x1080.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!--
+      window-env.js — инжектирует публичный runtime конфиг (BASE_PATH, defaultChain, etc.)
+      без NEXT_PUBLIC_ переменных. Сервируется Fastify роутом /runtime/window-env.js
+    -->
+    <script src="/runtime/window-env.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

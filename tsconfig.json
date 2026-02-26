@@ -15,7 +15,15 @@
     "baseUrl": ".",
     "incremental": true,
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["vite/client", "jest"],
   },
   "include": ["**/*"],
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules",
+    "pages/**",
+    ".next/**",
+    "dist/**",
+    "dist-server/**",
+    "dist-ipfs/**",
+  ],
 }

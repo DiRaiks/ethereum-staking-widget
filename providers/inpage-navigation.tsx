@@ -9,7 +9,7 @@ import {
   useEffect,
 } from 'react';
 import invariant from 'tiny-invariant';
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 
 import { config } from 'config';
 
@@ -28,14 +28,14 @@ InpageNavigationContext.displayName = 'InpageNavigationContext';
 export const InpageNavigationProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { asPath } = useRouter();
+  const { pathname, search, hash: locationHash } = useLocation();
   const [hashNav, setHash] = useState('');
 
   useEffect(() => {
     if (config.ipfsMode) return; // Hash is reserved in ipfs mode, ignored here
-    const hash = asPath.split('#')[1];
+    const hash = locationHash.replace('#', '');
     setHash(hash);
-  }, [asPath]);
+  }, [locationHash]);
 
   const navigateInpageAnchor = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -64,10 +64,9 @@ export const InpageNavigationProvider: FC<PropsWithChildren> = ({
   const resetInpageAnchor = useCallback(() => {
     setHash('');
     if (!config.ipfsMode) {
-      const hashTrimmed = asPath.split('#')[0];
-      history.pushState({}, '', hashTrimmed);
+      history.pushState({}, '', pathname + search);
     }
-  }, [asPath]);
+  }, [pathname, search]);
 
   const resetSpecificAnchor = useCallback(
     (hash: string) => {

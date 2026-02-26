@@ -1,36 +1,30 @@
 import { useCallback } from 'react';
-import { useRouter } from 'next/router';
-
-import { prefixUrl } from 'utils/get-ipfs-base-path';
+import { useNavigate } from 'react-router-dom';
 
 export const usePrefixedPush = () => {
-  const router = useRouter();
-  type Args = Parameters<typeof router.push>;
+  const navigate = useNavigate();
   return useCallback(
-    (
-      url: string,
-      query?: Record<string, string>,
-      a1?: Args[1],
-      a2?: Args[2],
-    ) => {
-      return router.push(prefixUrl(url, query), a1, a2);
+    (url: string, query?: Record<string, string>) => {
+      const search =
+        query && Object.keys(query).length > 0
+          ? '?' + new URLSearchParams(query).toString()
+          : '';
+      return navigate(url + search);
     },
-    [router],
+    [navigate],
   );
 };
 
 export const usePrefixedReplace = () => {
-  const router = useRouter();
-  type Args = Parameters<typeof router.replace>;
+  const navigate = useNavigate();
   return useCallback(
-    (
-      url: string,
-      query?: Record<string, string>,
-      a1?: Args[1],
-      a2?: Args[2],
-    ) => {
-      return router.replace(prefixUrl(url, query), a1, a2);
+    (url: string, query?: Record<string, string>) => {
+      const search =
+        query && Object.keys(query).length > 0
+          ? '?' + new URLSearchParams(query).toString()
+          : '';
+      return navigate(url + search, { replace: true });
     },
-    [router],
+    [navigate],
   );
 };

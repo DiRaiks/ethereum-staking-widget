@@ -1,10 +1,10 @@
 import * as wagmiChains from 'wagmi/chains';
 import { Chain } from 'wagmi/chains';
 
-import { ReactComponent as OptimismLogo } from 'assets/icons/chain-toggler/optimism.svg';
-import { ReactComponent as EthereumMainnetLogo } from 'assets/icons/chain-toggler/mainnet.svg';
-import { ReactComponent as SoneiumLogo } from 'assets/icons/chain-toggler/soneium.svg';
-import { ReactComponent as UnichainLogo } from 'assets/icons/chain-toggler/unichain.svg';
+import { ReactComponent as OptimismLogo } from 'assets/icons/chain-toggler/optimism.svg?react';
+import { ReactComponent as EthereumMainnetLogo } from 'assets/icons/chain-toggler/mainnet.svg?react';
+import { ReactComponent as SoneiumLogo } from 'assets/icons/chain-toggler/soneium.svg?react';
+import { ReactComponent as UnichainLogo } from 'assets/icons/chain-toggler/unichain.svg?react';
 
 import { CHAINS } from 'consts/chains';
 

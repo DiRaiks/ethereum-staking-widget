@@ -1,6 +1,5 @@
 import { AccordionNavigatable } from 'shared/components/accordion-navigatable';
 import { WHAT_IS_BUNKER, WHAT_IS_TURBO } from '../../withdrawals-constants';
-import Link from 'next/link';
 
 export const WithdrawalPeriodCircumstances: React.FC = () => {
   return (
@@ -15,8 +14,8 @@ export const WithdrawalPeriodCircumstances: React.FC = () => {
         <li>Exit queue on the Beacon chain.</li>
         <li>Performance of the validator poolside.</li>
         <li>
-          The protocol mode (<Link href={WHAT_IS_TURBO}>Turbo&nbsp;mode</Link>{' '}
-          or <Link href={WHAT_IS_BUNKER}>Bunker&nbsp;mode</Link>)
+          The protocol mode (<a href={WHAT_IS_TURBO}>Turbo&nbsp;mode</a> or{' '}
+          <a href={WHAT_IS_BUNKER}>Bunker&nbsp;mode</a>)
         </li>
       </ul>
     </AccordionNavigatable>

@@ -41,7 +41,7 @@ export const NFTImage = styled.img.attrs({
 `;
 
 export const NFTImageExample = styled(NFTImage).attrs({
-  src: NFTExample.src,
+  src: NFTExample,
 })`
   position: relative;
   left: 20px;

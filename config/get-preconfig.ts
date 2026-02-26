@@ -1,24 +1,18 @@
-import getConfigNext from 'next/config';
 import { default as dynamics } from './dynamics';
-
-const { publicRuntimeConfig, serverRuntimeConfig } = getConfigNext();
 
 export type PreConfigType = {
   BASE_PATH_ASSET: string;
-} & typeof publicRuntimeConfig &
-  typeof dynamics;
+} & typeof dynamics;
 
 // `getPreConfig()` needs for internal using in 'config/groups/*'
 // Do not use `getPreConfig()` outside of 'config/groups/*'
 export const getPreConfig = (): PreConfigType => {
-  const BASE_PATH_ASSET = dynamics.ipfsMode
-    ? '.'
-    : (serverRuntimeConfig.basePath ?? '') ||
-      (publicRuntimeConfig.basePath ?? '');
+  // In Vite SPA build there is no basePath — the app is served from root.
+  // In IPFS mode assets are loaded relative to the page (e.g., './icon.svg').
+  const BASE_PATH_ASSET = dynamics.ipfsMode ? '.' : '';
 
   return {
     BASE_PATH_ASSET,
-    ...publicRuntimeConfig,
     ...dynamics,
   };
 };

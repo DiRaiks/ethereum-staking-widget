@@ -5,7 +5,9 @@ export class RequestMetrics {
   apiTimings: Histogram<'hostname' | 'route' | 'entity' | 'status'>;
   apiTimingsExternal: Histogram<'hostname' | 'route' | 'entity' | 'status'>;
   requestCounter: Counter<'route'>;
-  ethCallToAddress: Counter<'address' | 'referrer'>;
+  ethCallToAddress: Counter<
+    'address' | 'referer' | 'contractName' | 'methodEncoded' | 'methodDecoded'
+  >;
   ssrCounter: Counter<'revalidate'>;
   validationFileLoadError: Counter<'error'>;
 

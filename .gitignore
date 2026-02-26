@@ -25,6 +25,9 @@ tsconfig.tsbuildinfo
 
 # production
 /build
+/dist
+/dist-server
+/dist-ipfs
 
 # misc
 .DS_Store

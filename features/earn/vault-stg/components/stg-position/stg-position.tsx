@@ -3,7 +3,6 @@ import { TokenStrethIcon, TokenMellowIcon } from 'assets/earn';
 import { VaultPosition } from 'features/earn/shared/vault-position';
 import { STG_TOKEN_SYMBOL, MELLOW_POINT_SYMBOL } from '../../consts';
 import { useSTGPosition } from '../../hooks/use-stg-position';
-import Link from 'next/link';
 
 const PointsTip = () => (
   <p>
@@ -12,9 +11,13 @@ const PointsTip = () => (
     0.00025 points per hour per $1
     <br />
     For more information about how Mellow points work, please visit{' '}
-    <Link href="https://docs.mellow.finance/points/overview">
+    <a
+      href="https://docs.mellow.finance/points/overview"
+      target="_blank"
+      rel="noreferrer"
+    >
       the Mellow website
-    </Link>
+    </a>
   </p>
 );
 

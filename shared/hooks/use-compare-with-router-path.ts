@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 
 import { config } from 'config';
 import {
@@ -8,13 +8,13 @@ import {
 } from 'utils/compare-with-router-path';
 
 export const useCompareWithRouterPath = (href: string) => {
-  const router = useRouter();
+  const { pathname } = useLocation();
 
   return useMemo(
     () =>
       config.ipfsMode
-        ? compareWithRouterPathInIPFS(router.asPath, href)
-        : compareWithRouterPathInInfra(router.asPath, href),
-    [router.asPath, href],
+        ? compareWithRouterPathInIPFS(pathname, href)
+        : compareWithRouterPathInInfra(pathname, href),
+    [pathname, href],
   );
 };

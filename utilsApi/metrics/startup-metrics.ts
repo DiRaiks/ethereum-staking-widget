@@ -60,7 +60,7 @@ const collectEnvInfoMetrics = (registry: Registry): void => {
 export const collectStartupMetrics = async (
   registry: Registry,
 ): Promise<void> => {
-  if (!config.collectMetrics) return;
+  if (process.env.COLLECT_METRICS !== 'true') return;
 
   collectEnvInfoMetrics(registry);
 

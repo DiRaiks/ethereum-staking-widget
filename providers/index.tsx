@@ -1,13 +1,11 @@
 import { FC, PropsWithChildren } from 'react';
 import { CookieThemeProvider } from '@lidofinance/lido-ui';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { GlobalStyle } from 'styles';
 import { ConfigProvider } from 'config';
 
 import { Web3Provider } from 'modules/web3';
 import { AddressValidationFile } from 'utils/address-validation';
-import { STRATEGY_LAZY } from 'consts/react-query-strategies';
 
 import { AppFlagProvider } from './app-flag';
 import { IPFSInfoBoxStatusesProvider } from './ipfs-info-box-statuses';
@@ -21,39 +19,30 @@ type ProvidersProps = {
   validationFile?: AddressValidationFile;
 };
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      ...STRATEGY_LAZY,
-    },
-  },
-});
-
+// QueryClientProvider is provided by src/App.tsx (outer wrapper)
 export const Providers: FC<PropsWithChildren<ProvidersProps>> = ({
   children,
   prefetchedManifest,
   validationFile,
 }) => (
-  <QueryClientProvider client={queryClient}>
-    <ConfigProvider prefetchedManifest={prefetchedManifest}>
-      <AppFlagProvider>
-        <CookieThemeProvider>
-          <GlobalStyle />
-          <Web3Provider>
-            <IPFSInfoBoxStatusesProvider>
-              <InpageNavigationProvider>
-                <ModalProvider>
-                  <ExternalForbiddenRouteProvider>
-                    <AddressValidationProvider validationFile={validationFile}>
-                      {children}
-                    </AddressValidationProvider>
-                  </ExternalForbiddenRouteProvider>
-                </ModalProvider>
-              </InpageNavigationProvider>
-            </IPFSInfoBoxStatusesProvider>
-          </Web3Provider>
-        </CookieThemeProvider>
-      </AppFlagProvider>
-    </ConfigProvider>
-  </QueryClientProvider>
+  <ConfigProvider prefetchedManifest={prefetchedManifest}>
+    <AppFlagProvider>
+      <CookieThemeProvider>
+        <GlobalStyle />
+        <Web3Provider>
+          <IPFSInfoBoxStatusesProvider>
+            <InpageNavigationProvider>
+              <ModalProvider>
+                <ExternalForbiddenRouteProvider>
+                  <AddressValidationProvider validationFile={validationFile}>
+                    {children}
+                  </AddressValidationProvider>
+                </ExternalForbiddenRouteProvider>
+              </ModalProvider>
+            </InpageNavigationProvider>
+          </IPFSInfoBoxStatusesProvider>
+        </Web3Provider>
+      </CookieThemeProvider>
+    </AppFlagProvider>
+  </ConfigProvider>
 );

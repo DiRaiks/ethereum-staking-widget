@@ -15,7 +15,7 @@ import {
   DexOptionsShowMore,
   DexOptionsCheckMarkIcon,
 } from './styles';
-import { ReactComponent as AttentionTriangle } from 'assets/icons/attention-triangle.svg';
+import { ReactComponent as AttentionTriangle } from 'assets/icons/attention-triangle.svg?react';
 import { useMemo, useState } from 'react';
 import { InlineLoaderSmall } from '../styles';
 

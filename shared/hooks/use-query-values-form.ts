@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'react-router-dom';
 import { Path, PathValue, UseFormSetValue } from 'react-hook-form';
 import { parseEther } from 'viem';
 
@@ -12,19 +12,18 @@ export const useQueryParamsReferralForm = <
 >({
   setValue,
 }: UseQueryParamsReferralFormArgs<T>) => {
-  const { isReady, query } = useRouter();
-  const { ref } = query;
+  const [searchParams] = useSearchParams();
+  const ref = searchParams.get('ref');
 
   useEffect(() => {
-    if (!isReady) return;
     try {
-      if (typeof ref === 'string') {
+      if (ref) {
         setValue('referral' as Path<T>, ref as PathValue<T, Path<T>>);
       }
     } catch (error) {
       console.warn('Error setting referral value from query params', error);
     }
-  }, [isReady, ref, setValue]);
+  }, [ref, setValue]);
 };
 
 type UseQueryParamsAmountFormArgs<T extends { amount: bigint | null }> = {
@@ -34,20 +33,23 @@ type UseQueryParamsAmountFormArgs<T extends { amount: bigint | null }> = {
 export const useQueryParamsAmountForm = <T extends { amount: bigint | null }>({
   setValue,
 }: UseQueryParamsAmountFormArgs<T>) => {
-  const { isReady, query, pathname, replace } = useRouter();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (!isReady) return;
     try {
-      const { amount, ...rest } = query;
-
-      if (typeof amount === 'string') {
-        void replace({ pathname, query: rest });
-        const amountBigInt = parseEther(amount);
-        setValue('amount' as Path<T>, amountBigInt as PathValue<T, Path<T>>);
+      const amount = searchParams.get('amount');
+      if (amount) {
+        const next = new URLSearchParams(searchParams);
+        next.delete('amount');
+        setSearchParams(next, { replace: true });
+        setValue(
+          'amount' as Path<T>,
+          parseEther(amount) as PathValue<T, Path<T>>,
+        );
       }
     } catch (error) {
       console.warn('Error setting amount value from query params', error);
     }
-  }, [isReady, pathname, query, replace, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount
 };

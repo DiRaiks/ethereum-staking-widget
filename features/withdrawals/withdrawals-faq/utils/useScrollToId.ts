@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useLocation } from 'react-router-dom';
 
 export const useScrollToId = (id: string) => {
   const [opened, setOpened] = useState(false);
-  const router = useRouter();
+  const { hash } = useLocation();
+
   useEffect(() => {
-    const pathParts = router.asPath.split('#');
-    if (pathParts[pathParts.length - 1] === id) {
+    const hashId = hash.replace('#', '');
+    if (hashId === id) {
       setOpened(true);
     }
-  }, [router.asPath, id]);
+  }, [hash, id]);
 
   return { id, opened };
 };

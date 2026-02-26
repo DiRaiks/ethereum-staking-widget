@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 
 import { useRouterPath } from 'shared/hooks/use-router-path';
 import { useConfig } from 'config';
@@ -17,7 +17,7 @@ export const ExternalForbiddenRouteProvider = ({
   children: ReactNode;
 }) => {
   const [showContent, setShowContent] = useState(true);
-  const router = useRouter();
+  const navigate = useNavigate();
   const path = useRouterPath();
   const { pages } = useConfig().externalConfig;
 
@@ -31,10 +31,11 @@ export const ExternalForbiddenRouteProvider = ({
         pages[forbiddenPath]?.shouldDisable
       ) {
         setShowContent(false);
-        void router.push(HOME_PATH).finally(() => setShowContent(true));
+        void navigate(HOME_PATH);
+        setShowContent(true);
       }
     }
-  }, [pages, path, router]);
+  }, [pages, path, navigate]);
 
   const effectDeps = useMemo(() => [pages, path], [pages, path]);
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { InlineLoader, ThemeName } from '@lidofinance/lido-ui';
 import ExternalLink from 'assets/icons/external-link-icon.svg';
-import { ReactComponent as ChevronBlue } from 'assets/icons/chevron-blue.svg';
+import { ReactComponent as ChevronBlue } from 'assets/icons/chevron-blue.svg?react';
 
 export const DexOptionsContainer = styled.div<{
   $maxElements: number;

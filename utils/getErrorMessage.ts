@@ -159,6 +159,18 @@ export const extractCodeFromError = (
     return extractCodeFromError(error.error, false);
   }
 
+  // Ledger Live errors sometimes come as { data: [{ message: '...' }] }
+  if (
+    'data' in error &&
+    Array.isArray((error as { data: unknown }).data) &&
+    (error as { data: unknown[] }).data.length > 0
+  ) {
+    const firstItem = (error as { data: unknown[] }).data[0];
+    if (firstItem && typeof firstItem === 'object' && 'message' in firstItem) {
+      return extractCodeFromError(firstItem, false);
+    }
+  }
+
   return 0;
 };
 

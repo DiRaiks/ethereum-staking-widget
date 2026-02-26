@@ -1,93 +1,70 @@
-import getConfigNext from 'next/config';
-import { type Modify, toBoolean } from './helpers';
+import { toBoolean } from './helpers';
 
-const { serverRuntimeConfig } = getConfigNext();
+// In the Vite SPA build, server secrets are managed by server/config.ts (Fastify).
+// This file provides a process.env-based fallback for compatibility.
+// On the client side, all these values will be undefined (which is correct — secrets
+// should never be exposed to the browser).
 
-export type SecretConfigType = Modify<
-  typeof serverRuntimeConfig,
-  {
-    defaultChain: number;
+const splitRpcUrls = (val: string | undefined): [string, ...string[]] =>
+  (val?.split(',') ?? []) as [string, ...string[]];
 
-    rpcUrls_1: [string, ...string[]];
-    rpcUrls_17000: [string, ...string[]];
-    rpcUrls_560048: [string, ...string[]];
-    rpcUrls_11155111: [string, ...string[]];
+export type SecretConfigType = {
+  defaultChain: number;
+  devnetOverrides: string;
 
-    rpcUrls_10: [string, ...string[]];
-    rpcUrls_11155420: [string, ...string[]];
+  rpcUrls_1: [string, ...string[]];
+  rpcUrls_17000: [string, ...string[]];
+  rpcUrls_560048: [string, ...string[]];
+  rpcUrls_11155111: [string, ...string[]];
+  rpcUrls_10: [string, ...string[]];
+  rpcUrls_11155420: [string, ...string[]];
+  rpcUrls_1868: [string, ...string[]];
+  rpcUrls_1946: [string, ...string[]];
+  rpcUrls_130: [string, ...string[]];
+  rpcUrls_1301: [string, ...string[]];
+  [key: `rpcUrls_${number}`]: string[];
 
-    rpcUrls_1868: [string, ...string[]];
-    rpcUrls_1946: [string, ...string[]];
+  cspTrustedHosts: string | undefined;
+  cspReportUri: string | undefined;
+  cspReportOnly: boolean;
 
-    rpcUrls_130: [string, ...string[]];
-    rpcUrls_1301: [string, ...string[]];
+  rateLimit: number;
+  rateLimitTimeFrame: number;
 
-    // Dynamic keys like rpcUrls_<number>
-    [key: `rpcUrls_${number}`]: string[];
+  ethAPIBasePath: string | undefined;
+  rewardsBackendAPI: string | undefined;
+  validationAPI: string | undefined;
+  validationFilePath: string | undefined;
+};
 
-    cspReportOnly: boolean;
-
-    rateLimit: number;
-    rateLimitTimeFrame: number;
-  }
->;
-
-// 'getSecretConfig()' is required for the backend side.
-// We can't merge with 'getPreConfig()' because we want to split responsibility
-//
-// Also you can note that 'getSecretConfig' is just a proxy for 'serverRuntimeConfig'
-// because we want similar approach with 'getConfig'
 export const getSecretConfig = (): SecretConfigType => {
+  const env = process.env;
   return {
-    ...serverRuntimeConfig,
+    defaultChain: Number(env.DEFAULT_CHAIN) || 560048,
+    devnetOverrides: env.DEVNET_OVERRIDES ?? '',
 
-    // Keep fallback as in 'env-dynamics.mjs'
-    defaultChain: Number(serverRuntimeConfig.defaultChain) || 560048,
+    rpcUrls_1: splitRpcUrls(env.EL_RPC_URLS_1),
+    rpcUrls_17000: splitRpcUrls(env.EL_RPC_URLS_17000),
+    rpcUrls_560048: splitRpcUrls(env.EL_RPC_URLS_560048),
+    rpcUrls_11155111: splitRpcUrls(env.EL_RPC_URLS_11155111),
+    rpcUrls_10: splitRpcUrls(env.EL_RPC_URLS_10),
+    rpcUrls_11155420: splitRpcUrls(env.EL_RPC_URLS_11155420),
+    rpcUrls_1868: splitRpcUrls(env.EL_RPC_URLS_1868),
+    rpcUrls_1946: splitRpcUrls(env.EL_RPC_URLS_1946),
+    rpcUrls_130: splitRpcUrls(env.EL_RPC_URLS_130),
+    rpcUrls_1301: splitRpcUrls(env.EL_RPC_URLS_1301),
 
-    // Hack: in the current implementation we can treat an empty array as a "tuple" (conditionally)
-    rpcUrls_1: (serverRuntimeConfig.rpcUrls_1?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_17000: (serverRuntimeConfig.rpcUrls_17000?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_560048: (serverRuntimeConfig.rpcUrls_560048?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_11155111: (serverRuntimeConfig.rpcUrls_11155111?.split(',') ??
-      []) as [string, ...string[]],
+    cspTrustedHosts: env.CSP_TRUSTED_HOSTS,
+    cspReportUri: env.CSP_REPORT_URI,
+    cspReportOnly: toBoolean(env.CSP_REPORT_ONLY),
 
-    rpcUrls_10: (serverRuntimeConfig.rpcUrls_10?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_11155420: (serverRuntimeConfig.rpcUrls_11155420?.split(',') ??
-      []) as [string, ...string[]],
+    rateLimit: Number(env.RATE_LIMIT) || 100,
+    rateLimitTimeFrame: Number(env.RATE_LIMIT_TIME_FRAME) || 60,
 
-    rpcUrls_1868: (serverRuntimeConfig.rpcUrls_1868?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_1946: (serverRuntimeConfig.rpcUrls_1946?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_130: (serverRuntimeConfig.rpcUrls_130?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-    rpcUrls_1301: (serverRuntimeConfig.rpcUrls_1301?.split(',') ?? []) as [
-      string,
-      ...string[],
-    ],
-
-    cspReportOnly: toBoolean(serverRuntimeConfig.cspReportOnly),
-
-    rateLimit: Number(serverRuntimeConfig.rateLimit) || 100,
-    rateLimitTimeFrame: Number(serverRuntimeConfig.rateLimitTimeFrame) || 60, // 1 minute;
+    ethAPIBasePath: env.ETH_API_BASE_PATH,
+    rewardsBackendAPI: env.REWARDS_BACKEND_API,
+    validationAPI: env.VALIDATION_API,
+    validationFilePath: env.VALIDATION_FILE_PATH,
   };
 };
 

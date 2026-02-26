@@ -1,8 +1,5 @@
 import type { Address } from 'viem';
 import invariant from 'tiny-invariant';
-import getConfigNext from 'next/config';
-
-const { serverRuntimeConfig } = getConfigNext();
 
 import {
   CHAINS,
@@ -76,19 +73,20 @@ export type NetworkConfig = {
   };
 };
 
-const DEVNET_OVERRIDES: Record<number, string> = // Merge client&server values
-  (serverRuntimeConfig.devnetOverrides || getPreConfig().devnetOverrides || '')
-    .split(',')
-    .reduce(
-      (acc, override) => {
-        const [chainId, setName] = override.split(':');
-        if (!isNaN(Number(chainId)) && setName) {
-          acc[Number(chainId)] = setName;
-        }
-        return acc;
-      },
-      {} as Record<number, string>,
-    );
+const DEVNET_OVERRIDES: Record<number, string> = (
+  getPreConfig().devnetOverrides || ''
+)
+  .split(',')
+  .reduce(
+    (acc, override) => {
+      const [chainId, setName] = override.split(':');
+      if (!isNaN(Number(chainId)) && setName) {
+        acc[Number(chainId)] = setName;
+      }
+      return acc;
+    },
+    {} as Record<number, string>,
+  );
 
 // For now stub L2 deployments,
 // as we don't need L2 devnets and it's easier to add more L2s
