@@ -5,6 +5,9 @@ import { useClaimData } from 'features/withdrawals/contexts/claim-data-context';
 import { RequestStatusClaimable } from 'features/withdrawals/types/request-status';
 import { useTxModalStagesClaim } from 'features/withdrawals/claim/transaction-modal-claim/use-tx-modal-stages-claim';
 import { useAA, useDappStatus, useLidoSDK, useTxFlow } from 'modules/web3';
+import { applyRoundUpGasLimit } from 'modules/web3';
+
+import { config } from 'config';
 
 type Args = {
   onRetry?: () => void;
@@ -46,8 +49,13 @@ export const useClaim = ({ onRetry }: Args) => {
               callback: txStagesCallback,
             });
           },
-          onSign: async () => {
+          onSign: async ({ payload }) => {
             txModalStages.sign(amount);
+            return applyRoundUpGasLimit(
+              (payload as bigint) ??
+                config.WITHDRAWAL_QUEUE_CLAIM_GAS_LIMIT_DEFAULT *
+                  BigInt(requestsIds.length),
+            );
           },
           onReceipt: async ({ txHashOrCallId }) => {
             txModalStages.pending(amount, txHashOrCallId, isAA);
