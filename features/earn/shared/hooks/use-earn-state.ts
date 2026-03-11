@@ -32,7 +32,7 @@ const setCachedEarnParam = (value: string | undefined) => {
  *
  * State rules (opt-out):
  * - **disabled**: Earn is disabled by config, by Ledger Live, or when `?earn=disabled` is set
- * - **partial**: Specific vaults are force-disabled via URL (e.g., `?earn=vault1,vault2`)
+ * - **partial**: Only specific vaults are shown via URL whitelist (e.g., `?earn=vault1,vault2`)
  * - **enabled**: Earn is fully enabled (default for all integrations except Ledger Live)
  */
 export const useEarnState = () => {
@@ -41,8 +41,8 @@ export const useEarnState = () => {
   const earnRuntimeState = useEarnRuntimeState();
   const {
     isEarnDisabledByRuntimeContext,
-    someVaultsDisabledByURL,
-    isVaultDisabledByUrl,
+    someVaultsEnabledByURL,
+    isVaultEnabledByUrl,
   } = earnRuntimeState;
 
   const isEarnDisabledByConfig = pages[EARN_PATH]?.shouldDisable ?? false;
@@ -50,7 +50,7 @@ export const useEarnState = () => {
   const isEarnDisabled =
     isEarnDisabledByRuntimeContext || isEarnDisabledByConfig;
 
-  const isEarnPartial = !isEarnDisabled && someVaultsDisabledByURL;
+  const isEarnPartial = !isEarnDisabled && someVaultsEnabledByURL;
 
   let earnState: EarnStateValue;
   if (isEarnPartial) {
@@ -73,8 +73,8 @@ export const useEarnState = () => {
     // If earn is fully enabled, all vaults are enabled
     if (earnState === EARN_STATES.ENABLED) return true;
 
-    // In PARTIAL state: vault is enabled only if it's NOT in the URL-disabled list
-    return earnState === EARN_STATES.PARTIAL && !isVaultDisabledByUrl(vaultName);
+    // In PARTIAL state: vault is enabled only if it IS in the URL whitelist
+    return earnState === EARN_STATES.PARTIAL && isVaultEnabledByUrl(vaultName);
   };
 
   const isVaultDisabled = (vaultName: string) => !isVaultEnabled(vaultName);
@@ -91,7 +91,7 @@ export const useEarnState = () => {
     isEarnEnabled: earnState === EARN_STATES.ENABLED,
     isEarnDisabled,
     isEarnPartial,
-    isEarnVaultsForceDisabledByURL: someVaultsDisabledByURL,
+    isEarnVaultsWhitelistedByURL: someVaultsEnabledByURL,
     isVaultEnabled,
     isVaultDisabled,
   };

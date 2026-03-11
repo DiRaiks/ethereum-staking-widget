@@ -20,7 +20,7 @@ describe('computeEarnRuntimeState (opt-out semantics)', () => {
       expect(result.isEarnDisabledByRuntimeContext).toBe(true);
     });
 
-    it('Ledger Live stays disabled even with vault-specific URL params', () => {
+    it('Ledger Live stays disabled even with vault whitelist URL params', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: true,
         earnParam: 'ggv,dvv',
@@ -75,75 +75,75 @@ describe('computeEarnRuntimeState (opt-out semantics)', () => {
     });
   });
 
-  describe('vault-level opt-out via URL params', () => {
-    it('?earn=ggv disables only the ggv vault', () => {
+  describe('vault-level whitelist via URL params', () => {
+    it('?earn=ggv shows only ggv; dvv and strategy are hidden', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: false,
         earnParam: 'ggv',
         isReady: true,
       });
-      expect(result.someVaultsDisabledByURL).toBe(true);
-      expect(result.isVaultDisabledByUrl('ggv')).toBe(true);
-      expect(result.isVaultDisabledByUrl('dvv')).toBe(false);
-      expect(result.isVaultDisabledByUrl('strategy')).toBe(false);
-      expect(result.isVaultEnabledByUrl('ggv')).toBe(false);
-      expect(result.isVaultEnabledByUrl('dvv')).toBe(true);
+      expect(result.someVaultsEnabledByURL).toBe(true);
+      expect(result.isVaultEnabledByUrl('ggv')).toBe(true);
+      expect(result.isVaultEnabledByUrl('dvv')).toBe(false);
+      expect(result.isVaultEnabledByUrl('strategy')).toBe(false);
+      expect(result.isVaultDisabledByUrl('ggv')).toBe(false);
+      expect(result.isVaultDisabledByUrl('dvv')).toBe(true);
     });
 
-    it('?earn=ggv,dvv disables ggv and dvv, keeps strategy enabled', () => {
+    it('?earn=ggv,dvv shows only ggv and dvv; strategy is hidden', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: false,
         earnParam: 'ggv,dvv',
         isReady: true,
       });
-      expect(result.someVaultsDisabledByURL).toBe(true);
-      expect(result.vaultsDisabledByUrl).toEqual(['ggv', 'dvv']);
-      expect(result.isVaultDisabledByUrl('ggv')).toBe(true);
-      expect(result.isVaultDisabledByUrl('dvv')).toBe(true);
-      expect(result.isVaultDisabledByUrl('strategy')).toBe(false);
+      expect(result.someVaultsEnabledByURL).toBe(true);
+      expect(result.vaultsEnabledByUrl).toEqual(['ggv', 'dvv']);
+      expect(result.isVaultEnabledByUrl('ggv')).toBe(true);
+      expect(result.isVaultEnabledByUrl('dvv')).toBe(true);
+      expect(result.isVaultEnabledByUrl('strategy')).toBe(false);
     });
 
-    it('no URL params means no vaults disabled by URL', () => {
+    it('no URL params means no vault whitelist (all vaults shown)', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: false,
         earnParam: undefined,
         isReady: true,
       });
-      expect(result.someVaultsDisabledByURL).toBe(false);
-      expect(result.vaultsDisabledByUrl).toEqual([]);
-      expect(result.isVaultDisabledByUrl('ggv')).toBe(false);
-      expect(result.isVaultEnabledByUrl('ggv')).toBe(true);
+      expect(result.someVaultsEnabledByURL).toBe(false);
+      expect(result.vaultsEnabledByUrl).toEqual([]);
+      expect(result.isVaultEnabledByUrl('ggv')).toBe(false);
+      expect(result.isVaultDisabledByUrl('ggv')).toBe(true);
     });
 
-    it('?earn=enabled does not create vault-level disabled list', () => {
+    it('?earn=enabled does not create a vault whitelist', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: false,
         earnParam: 'enabled',
         isReady: true,
       });
-      expect(result.someVaultsDisabledByURL).toBe(false);
-      expect(result.vaultsDisabledByUrl).toEqual([]);
+      expect(result.someVaultsEnabledByURL).toBe(false);
+      expect(result.vaultsEnabledByUrl).toEqual([]);
     });
 
-    it('?earn=disabled does not populate vault disabled list', () => {
+    it('?earn=disabled does not populate vault whitelist', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: false,
         earnParam: 'disabled',
         isReady: true,
       });
-      expect(result.someVaultsDisabledByURL).toBe(false);
-      expect(result.vaultsDisabledByUrl).toEqual([]);
+      expect(result.someVaultsEnabledByURL).toBe(false);
+      expect(result.vaultsEnabledByUrl).toEqual([]);
       expect(result.isEarnDisabledByRuntimeContext).toBe(true);
     });
 
-    it('vault params not applied when router is not ready', () => {
+    it('vault whitelist not applied when router is not ready', () => {
       const result = computeEarnRuntimeState({
         isLedgerLive: false,
         earnParam: 'ggv,dvv',
         isReady: false,
       });
-      expect(result.someVaultsDisabledByURL).toBe(false);
-      expect(result.vaultsDisabledByUrl).toEqual([]);
+      expect(result.someVaultsEnabledByURL).toBe(false);
+      expect(result.vaultsEnabledByUrl).toEqual([]);
     });
   });
 });
